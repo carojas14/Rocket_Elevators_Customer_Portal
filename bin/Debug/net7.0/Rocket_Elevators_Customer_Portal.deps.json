@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "Rocket_Elevators_Customer_Portal/1.0.0": {
+        "runtime": {
+          "Rocket_Elevators_Customer_Portal.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Rocket_Elevators_Customer_Portal/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
