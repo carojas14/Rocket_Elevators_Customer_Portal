@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewBag.Title = "Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var buildings = ViewBag.buildings;
+    var batteries = ViewBag.batteries;
+    var columns = ViewBag.columns;
+    var elevators = ViewBag.elevators;
+}
+
+
+<section class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Products</h1>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-inline-flex">
+            <img src="~/image/building.svg" class="p-2" />
+            <h4 class="m-0 font-weight-bold text-primary">Buildings</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" >
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Address</th>
+                            <th>Manager Name</th>
+                            <th>Manager Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var build in buildings)
+                        {
+                            <tr>
+                                <td>@build.id</td>
+                                <td>@build.addressBuilding</td>
+                                <td>@build.FullNameBuildingAdmin</td>
+                                <td>@build.EmailAdminBuilding</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-inline-flex">
+            <img src="~/image/battery-half.svg" class="p-2"/>
+            <h4 class="m-0 font-weight-bold text-primary">Batteries</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Battery type</th>
+                            <th>Status</th>
+                            <th>Last inspection</th>
+                            <th>Building Id</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var battery in batteries)
+                        {
+                            <tr>
+                                <td>@battery.id</td>
+                                <td>@battery.battery_type</td>
+                                <td>@battery.status</td>
+                                <td>@battery.date_last_inspection</td>
+                                <td>@battery.building_id</td>
+                            </tr>
+                        }
+                    </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-inline-flex">
+            <img src="~/image/layout-three-columns.svg" class="p-2" />
+            <h4 class="m-0 font-weight-bold text-primary">Columns</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Column type</th>
+                            <th>Status</th>
+                            <th>Battery Id</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var column in columns)
+                        {
+                            <tr>
+                                <td>@column.id</td>
+                                <td>@column.column_type</td>
+                                <td>@column.status</td>
+                                <td>@column.battery_id</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-inline-flex">
+            <img src="~/image/arrow-down-up.svg" class="p-2" />
+            <h4 class="m-0 font-weight-bold text-primary">Elevators</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Model</th>
+                            <th>Status</th>
+                            <th>Last inspection</th>
+                            <th>Column Id</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var elevator in elevators)
+                        {
+                            <tr>
+                                <td>@elevator.id</td>
+                                <td>@elevator.model</td>
+                                <td>@elevator.elevator_status</td>
+                                <td>@elevator.date_last_inspection</td>
+                                <td>@elevator.column_id</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</section>

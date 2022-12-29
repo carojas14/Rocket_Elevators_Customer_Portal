@@ -1,0 +1,58 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Rocket_Elevators_Customer_Portal.Areas.Identity.Data
+
+
+@{
+    ViewData["Title"] = "Home Page";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var interventions = ViewBag.interventions;
+}
+
+
+
+<section class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Products</h1>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-inline-flex">
+            <img src="~/image/tools.svg" class="p-2" />
+            <h4 class="m-0 font-weight-bold text-primary">Interventions</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Building</th>
+                            <th>Battery</th>
+                            <th>Column</th>
+                            <th>Elevator</th>
+                            <th>Date Start</th>
+                            <th>Status</th>
+                            <th>Result</th>
+                            <th>Report</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var interv in interventions)
+                        {
+                            <tr>
+                                <td>@interv.id</td>
+                                <td>@interv.BuildingID</td>
+                                <td>@interv.BatteryID</td>
+                                <td>@interv.ColumnID</td>
+                                <td>@interv.ElevatorID</td>
+                                <td>@interv.StartDate</td>
+                                <td>@interv.Status</td>
+                                <td>@interv.Result</td>
+                                <td>@interv.Report</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</section>

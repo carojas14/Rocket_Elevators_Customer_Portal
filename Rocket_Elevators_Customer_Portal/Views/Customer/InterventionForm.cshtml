@@ -1,0 +1,196 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using Newtonsoft.Json;
+@using Rocket_Elevators_Customer_Portal.Areas.Identity.Data;
+@using System.Web.Http;
+
+@{
+    ViewData["Title"] = "New Intervention";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var customer = ViewBag.Customer;
+    var buildings = ViewBag.buildings;
+    var batteries = ViewBag.batteriesByBuild;  
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
+<section class="container-fluid p-3">
+    <h1 class="h3 mb-2 text-gray-800"></h1>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h4 class="m-0 font-weight-bold text-primary">New Intervention</h4>
+        </div>
+        <div class="card-body">
+
+            <form class="user" action="#" method="post" onsubmit="return newIntervention()">            
+                <div id="quote_form" class="container">
+                    <div class="row">
+                        <div class="col-lg-12 form-group">
+                
+                            <div class="form-group mb-3">
+                                <label for="customer_name" class="form-label">Customer:</label>
+                                <input required type="text" id="customer_name" name="customer_name" class="form-control form-control-lg" value="@customer.CompanyName" readonly>
+                                <input type="hidden" id="customer_id" name="customer_id" value="@customer.id">
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label id="building_id" class="form-label">Building:</label>
+                                <select required id="building" name="building_id" class="form-control form-control-lg">
+                                    <option value="">Please select</option>
+                                    @foreach (var build in buildings)
+                                    {
+                                        <option value="@build.id">@build.id</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label id="battery_id" class="form-label">Battery:</label>
+                                <select required id="battery" name="battery_id" class="form-control form-control-lg">
+                                    <option value="">Please select</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label id="column_id" class="form-label">Column:</label>
+                                <select id="column" name="column_id" class="form-control form-control-lg">
+                                    <option value="">Please select</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label id="elevator_id" class="form-label">Elevator:</label>
+                                <select id="elevator" name="elevator_id" class="form-control form-control-lg">
+                                    <option value="">Please select</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="report" class="form-label">Report:</label>
+                                <input required type="text" value="" class="form-control form-control-lg" name="report" id="report">
+                            </div>
+
+                            <input id="author_id" style="display: none;" name="author_id" value="@customer.id">
+                            
+                            <br />
+
+                            <div class="row">
+                    
+                                <div class="col-lg-10">
+                                    <a name="submit" value="Submit" class="btn btn-primary" id="submit"><i class="fa fa-check"></i> SUBMIT</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var building, battery, column, elevator;
+
+        building = $('#building').html();
+        battery = $('#battery').html();
+        column = $('#column').html();
+        elevator = $('#elevator').html();
+
+        $('#building').change( function () {
+
+            buildingSelected = $('#building :selected').text();
+
+            //console.log(buildingSelected);
+
+          
+            $.getJSON("https://localhost:7234/api/batteries/building/" + buildingSelected, function (response) 
+            {
+                console.log(response)
+                
+                if(response) 
+                {
+                    $.each(response, function(index, value) {
+                      var option = '<option value="' + value.id + '">' + value.id + '</option>';
+                      $(option).appendTo("#battery")
+                    });
+                }
+                
+            });
+             
+        });
+
+        $('#battery').change(function () {
+
+            batterySelected = $('#battery :selected').text();
+
+            //console.log(batterySelected);
+
+
+            $.getJSON("https://localhost:7234/api/columns/battery/" + batterySelected, function (response) {
+                console.log(response)
+
+                if (response) {
+                    $.each(response, function (index, value) {
+                        var option = '<option value="' + value.id + '">' + value.id + '</option>';
+                        $(option).appendTo("#column")
+                    });
+                }
+
+            });
+
+        });
+
+        $('#column').change(function () {
+
+            columnSelected = $('#column :selected').text();
+
+            //console.log(columnSelected);
+
+
+            $.getJSON("https://localhost:7234/api/elevators/column/" + columnSelected, function (response) {
+                console.log(response)
+
+                if (response) {
+                    $.each(response, function (index, value) {
+                        var option = '<option value="' + value.id + '">' + value.id + '</option>';
+                        $(option).appendTo("#elevator")
+                    });
+                }
+
+            });            
+
+        });
+
+
+         $('#submit').click(function () {
+
+
+            var intervention = {
+                Author: @customer.id,
+                CustomerID: @customer.id,
+                BuildingID: $('#building').val(),
+                BatteryID: $('#battery').val(),
+                ColumnID: $('#column').val(),
+                ElevatorID: $('#elevator').val(),
+                Report: $('#report').val()
+            };
+
+
+            $.post("/Intervention/newIntervention", intervention)
+                .done(function( data ) {
+                    //swal("Success!", "Your intervention has been submitted!", "success");
+                    alert("Your intervention has been submitted!");
+                    window.location.href = "/";
+                });         
+
+        });       
+    
+
+    });
+</script>
